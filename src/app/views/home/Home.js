@@ -5,9 +5,9 @@ import React, {
 }                     from 'react';
 import PropTypes      from 'prop-types';
 import {
-  AnimatedView,
   Jumbotron
 }                     from '../../components';
+import AnimatedView   from '../../containers/animatedView/AnimatedView';
 import { Link }       from 'react-router-dom';
 
 class Home extends PureComponent {

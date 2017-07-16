@@ -8,9 +8,6 @@ import {
   BackToTop
 }                             from '../../components';
 import navigationModel        from '../../models/navigation.json';
-import { bindActionCreators } from 'redux';
-import { connect }            from 'react-redux';
-import * as viewsActions      from '../../redux/modules/views';
 import { fromJS }             from 'immutable';
 import MainRoutes             from '../../routes/MainRoutes';
 import { withRouter }         from 'react-router';
@@ -51,25 +48,4 @@ class App extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentView: state.getIn(['views', 'currentView'])
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions : bindActionCreators(
-      {
-        ...viewsActions
-      },
-      dispatch)
-  };
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-);
+export default withRouter(App);

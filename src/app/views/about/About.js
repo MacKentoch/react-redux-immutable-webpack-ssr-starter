@@ -4,9 +4,7 @@ import React, {
   PureComponent
 }                     from 'react';
 import PropTypes      from 'prop-types';
-import {
-  AnimatedView
-}                     from '../../components';
+import AnimatedView   from '../../containers/animatedView/AnimatedView';
 
 class About extends PureComponent {
   static propTypes= {

@@ -3,9 +3,11 @@
 import React        from 'react';
 import PropTypes    from 'prop-types';
 
-const Jumbotron = (props) => (
+const Jumbotron = ({
+  children
+}) => (
   <div className="jumbotron">
-    {props.children}
+    { children }
   </div>
 );
 

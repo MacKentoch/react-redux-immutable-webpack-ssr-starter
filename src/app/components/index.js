@@ -1,13 +1,5 @@
 // @flow weak
 
-import Jumbotron          from './jumbotron/Jumbotron';
-import NavigationBar      from './navigation/NavigationBar';
-import BackToTop          from './backToTop/BackToTop';
-import AnimatedView       from './animatedView/AnimatedView';
-
-export {
-  AnimatedView,
-  Jumbotron,
-  NavigationBar,
-  BackToTop
-};
+export { default as Jumbotron }         from './jumbotron/Jumbotron';
+export { default as NavigationBar }     from './navigation/NavigationBar';
+export { default as BackToTop }         from './backToTop/BackToTop';
