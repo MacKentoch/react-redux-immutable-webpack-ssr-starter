@@ -54,7 +54,7 @@ React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side ren
 
 ## Usage
 
-This starter is build with `NodeJS 8.1.4` (*as stated in engines section of package.json*)
+This starter is build with `NodeJS 8.1.4` (*as stated in [engines section of package.json](https://github.com/MacKentoch/react-redux-immutable-webpack-ssr-starter/blob/master/package.json#L6)*)
 
 Ensure you have a matching node version (*[nvm](https://github.com/creationix/nvm) is your friend. If you need help to install and use nvm [check my gist](https://gist.github.com/MacKentoch/42be82e7f34f03edcc018b80406ca0be) :+1:*)
 
