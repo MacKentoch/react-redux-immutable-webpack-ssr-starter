@@ -11,6 +11,7 @@ const indexFile   = path.join(__dirname, 'src/app/index.js');
 const config = {
   devtool: 'cheap-module-source-map',
   entry: [
+    'babel-polyfill',
     'react-hot-loader/patch',
     'webpack-hot-middleware/client',
     indexFile

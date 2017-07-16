@@ -12,7 +12,10 @@ const outputFile      = 'index.js';
 
 
 const serverConfig = {
-  entry: indexFile,
+  entry: [
+    'babel-polyfill',
+    indexFile
+  ],
   externals:  [nodeExternals()],
   output: {
     path:           ouputDirectory,

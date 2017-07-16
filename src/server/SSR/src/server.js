@@ -22,7 +22,6 @@ import moment             from 'moment';
 import { StaticRouter }   from 'react-router';
 import { Provider }       from 'react-redux';
 import configureStore     from '../../../app/redux/store/configureStore';
-import { fromJS }         from 'immutable';
 import App                from '../../../app/containers/app/App';
 
 
@@ -93,7 +92,7 @@ app.listen(
 module.exports = app; // export app just for testing purpose
 
 
-function serverRender(req, res) {
+async function serverRender(req, res) {
   const location      = req.url;
   const context       = {};
   // const memoryHistory = createHistory(req.path);
@@ -101,62 +100,121 @@ function serverRender(req, res) {
   // const history       = syncHistoryWithStore(memoryHistory, store);
 
   // just for demo, replace with a "usefull" async. action to feed your state
-  return fakeFetch()
-    .then(
-      ({ info }) => {
-        const currentTime     = moment().format();
-        const currentState    = store.getState(); 
+  try {
+    const response        = await fakeFetch();
+    const { info }        = response;
+    const currentTime     = moment().format();
+    const currentState    = store.getState(); 
+
+    const currentViewsState = currentState.get('views');
+    const updatedViewState  = currentViewsState
+                              .set('somePropFromServer', info)
+                              .set('serverTime', currentTime);
+
+    const preWarmedState  = currentState.set('views', updatedViewState);
+
+    // //If it were not immutable, JS would be:
+    // preWarmedState = {
+    //   ...currentState,
+    //   views: {
+    //     ...currentState.views,
+    //     somePropFromServer: info,
+    //     serverTime:         currentTime
+    //   }
+    // };
+
+    // update store to be preloaded:
+    store = configureStore(preWarmedState);
+
+    const InitialView = (
+      <Provider store={store}>
+        <StaticRouter
+          location={location}
+          context={context}>
+          <App />
+        </StaticRouter>
+      </Provider>
+    );
+
+    let html = '';
+    try {
+      html = renderToString(InitialView);
+    } catch (error) {
+      console.error('error: renderToString failed: ', error);
+    }
+
+    if (context.url) {
+      return res.status.end({ location: context.url });
+    }
+
+    const preloadedState = serialize(store.getState().toJS()); // serialize is better than JSON.stringify
+
+    return res
+      .status(200)
+      .set('content-type', 'text/html')
+      .send(renderFullPage(html, preloadedState));
+
+  } catch (error) {
+    return res.status(500).end('Internal server error: ', error)
+  }
+
+  // // Promised version of fakeFetch
+  // fakeFetch()
+  //   .then(
+  //     ({ info }) => {
+  //       const currentTime     = moment().format();
+  //       const currentState    = store.getState(); 
         
-        const currentViewsState = currentState.get('views');
-        const updatedViewState  = currentViewsState
-                                  .set('somePropFromServer', info)
-                                  .set('serverTime', currentTime);
+  //       const currentViewsState = currentState.get('views');
+  //       const updatedViewState  = currentViewsState
+  //                                 .set('somePropFromServer', info)
+  //                                 .set('serverTime', currentTime);
 
-        const preWarmedState  = currentState.set('views', updatedViewState);
+  //       const preWarmedState  = currentState.set('views', updatedViewState);
         
-        // //JS would be then:
-        // preWarmedState = {
-        //   ...currentState,
-        //   views: {
-        //     ...currentState.views,
-        //     somePropFromServer: info,
-        //     serverTime:         currentTime
-        //   }
-        // };
+  //       // //JS would be then:
+  //       // preWarmedState = {
+  //       //   ...currentState,
+  //       //   views: {
+  //       //     ...currentState.views,
+  //       //     somePropFromServer: info,
+  //       //     serverTime:         currentTime
+  //       //   }
+  //       // };
 
-        // update store to be preloaded:
-        store = configureStore(preWarmedState);
+  //       // update store to be preloaded:
+  //       store = configureStore(preWarmedState);
         
-        const InitialView = (
-          <Provider store={store}>
-            <StaticRouter
-              location={location}
-              context={context}>
-              <App />
-            </StaticRouter>
-          </Provider>
-        );
+  //       const InitialView = (
+  //         <Provider store={store}>
+  //           <StaticRouter
+  //             location={location}
+  //             context={context}>
+  //             <App />
+  //           </StaticRouter>
+  //         </Provider>
+  //       );
 
-        let html = '';
-        try {
-          html = renderToString(InitialView);
-        } catch (error) {
-          console.error('error: renderToString failed: ', error);
-        }
+  //       let html = '';
+  //       try {
+  //         html = renderToString(InitialView);
+  //       } catch (error) {
+  //         console.error('error: renderToString failed: ', error);
+  //       }
 
-        if (context.url) {
-          return res.status.end({ location: context.url });
-        }
+  //       if (context.url) {
+  //         return res.status.end({ location: context.url });
+  //       }
 
-        const preloadedState = serialize(store.getState().toJS()); // serialize is better than JSON.stringify
+  //       const preloadedState = serialize(store.getState().toJS()); // serialize is better than JSON.stringify
 
-        return res
-          .status(200)
-          .set('content-type', 'text/html')
-          .send(renderFullPage(html, preloadedState));
-      }
-    )
-    .catch((error) => res.status(500).end('Internal server error: ', error));
+  //       return res
+  //         .status(200)
+  //         .set('content-type', 'text/html')
+  //         .send(renderFullPage(html, preloadedState));
+  //     }
+  //   )
+  //   .catch((error) => res.status(500).end('Internal server error: ', error));
 }
 
 function fakeFetch() {

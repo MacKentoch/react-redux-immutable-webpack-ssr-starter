@@ -10,6 +10,12 @@ import {
 import AnimatedView   from '../../containers/animatedView/AnimatedView';
 import { Link }       from 'react-router-dom';
 
+function testTime() {
+  return new Promise(
+    (resolve) => setTimeout(() => resolve('async-await works'), 200)
+  );
+}
+
 class Home extends PureComponent {
   static propTypes= {
     currentView:  PropTypes.string.isRequired,
@@ -17,9 +23,11 @@ class Home extends PureComponent {
     leaveHome:    PropTypes.func.isRequired
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { enterHome } = this.props;
     enterHome();
+    const message = await testTime();
+    console.log('valid async await: ', message);
   }
 
   componentWillUnmount() {
