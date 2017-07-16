@@ -1,5 +1,7 @@
 // @flow weak
 
+import { isBrowserSide }  from '../../../services/universal';
+
 export const smoothScroll = {
   timer: null,
 
@@ -8,6 +10,10 @@ export const smoothScroll = {
   },
 
   scrollTo(id, callback) {
+    if (isBrowserSide()) {
+      return;
+    }
+
     const settings = {
       duration: 1000,
       easing: {
@@ -20,24 +26,24 @@ export const smoothScroll = {
     };
     let percentage;
     const node        = document.getElementById(id);
-    const nodeTop     = node && node.offsetTop    ? node.offsetTop    : 0;
-    const nodeHeight  = node && node.offsetHeight ? node.offsetHeight : 0;
+    const nodeTop     = node.offsetTop;
+    const nodeHeight  = node.offsetHeight;
     const body        = document.body;
     const html        = document.documentElement;
     const height      = Math.max(
-			body && body.scrollHeight ? body.scrollHeight : 0,
-			body && body.offsetHeight ? body.offsetHeight : 0,
-			html && html.clientHeight ? html.clientHeight : 0,
-			html && html.scrollHeight ? html.scrollHeight : 0,
-			html && html.offsetHeight ? html.offsetHeight : 0
+			body.scrollHeight,
+			body.offsetHeight,
+			html.clientHeight,
+			html.scrollHeight,
+			html.offsetHeight
 		);
-    const windowHeight      = window.innerHeight;
-    const offset            = window.pageYOffset;
-    const delta             = nodeTop - offset;
+    const windowHeight  = window.innerHeight;
+    const offset        = window.pageYOffset;
+    const delta         = nodeTop - offset;
     const bottomScrollableY = height - windowHeight;
-    const targetY           = (bottomScrollableY < delta) 
-                              ? bottomScrollableY - (height - nodeTop - nodeHeight + offset)
-                              : delta;
+    const targetY           = (bottomScrollableY < delta) ?
+      bottomScrollableY - (height - nodeTop - nodeHeight + offset):
+      delta;
 
     const startTime = Date.now();
     percentage = 0;

@@ -12,7 +12,7 @@ React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side ren
 ## Detailed Content
 
 **Front:**
-- React JS (15.x - [github :link:](https://github.com/facebook/react))
+- React JS (15.6.x - [github :link:](https://github.com/facebook/react))
 - Redux (*as you application grows managing state will be a serious concern, save pain with Redux*)
 - React-Redux (*Redux is not specific to ReactJS, you could easily use it with Angular2 for instance*)
 - Immutable JS

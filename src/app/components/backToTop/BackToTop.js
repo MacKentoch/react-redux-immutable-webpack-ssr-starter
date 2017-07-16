@@ -3,11 +3,16 @@
 
 import React, {
   Component
-}                       from 'react';
-import PropTypes        from 'prop-types';
-import {smoothScroll}   from './lib/smoothScroll';
-import BackToTopButton  from './backToTopButton/BackToTopButton';
-import {Motion, spring, presets} from 'react-motion';
+}                         from 'react';
+import PropTypes          from 'prop-types';
+import {smoothScroll}     from './lib/smoothScroll';
+import BackToTopButton    from './backToTopButton/BackToTopButton';
+import {
+  Motion,
+  spring,
+  presets
+}                         from 'react-motion';
+import { isBrowserSide }  from '../../services/universal';     
 
 class BackToTop extends Component {
   static propTypes = {
@@ -26,11 +31,15 @@ class BackToTop extends Component {
   };
 
   componentWillMount() {
-    window.addEventListener('scroll', this.handleWindowScroll);
+    if (isBrowserSide()) {
+      window.addEventListener('scroll', this.handleWindowScroll);
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleWindowScroll);
+    if (isBrowserSide()) {
+      window.removeEventListener('scroll', this.handleWindowScroll);
+    }
   }
 
   render() {
@@ -53,6 +62,9 @@ class BackToTop extends Component {
   }
 
   handleWindowScroll = () => {
+    if (!isBrowserSide()) {
+      return;
+    }
     if ($) {
       const { windowScrollY } = this.state;
       const { minScrollY } = this.props;
