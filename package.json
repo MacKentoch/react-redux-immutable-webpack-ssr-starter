@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side rendering, Hot Reload and redux-devtools STARTER",
   "main": "src/index.js",
+  "engines": {
+    "node": "8.1.4"
+  },
   "scripts": {
     "flow": "node_modules/.bin/flow",
     "test": "cross-env NODE_ENV=test nyc mocha test/.setup.js test/**/*.spec.js --recursive",
