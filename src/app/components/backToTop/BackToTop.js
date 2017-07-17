@@ -47,7 +47,7 @@ class BackToTop extends Component {
     return (
       <Motion style={{x: spring(showBackButton ? 0 : 120, presets.stiff)}}>
         {
-          ({x}) =>
+          ({x}) => (
             <BackToTopButton
               position={'bottom-right'}
               onClick={this.handlesOnBackButtonClick}
@@ -56,6 +56,7 @@ class BackToTop extends Component {
                 transform: `translate3d(${x}px, 0, 0)`
               }}
             />
+          )
         }
       </Motion>
     );

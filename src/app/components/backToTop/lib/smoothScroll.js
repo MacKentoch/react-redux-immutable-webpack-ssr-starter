@@ -1,5 +1,3 @@
-// @flow weak
-
 import { isBrowserSide }  from '../../../services/universal';
 
 export const smoothScroll = {
