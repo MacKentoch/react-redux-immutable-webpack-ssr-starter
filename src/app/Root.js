@@ -13,6 +13,7 @@ import configureStore           from './redux/store/configureStore';
 import { createBrowserHistory } from 'history';
 import { fromJS }               from 'immutable';
 import App                      from './containers/app/App';
+import ScrollToTop              from './components/scrollToTop/ScrollToTop';
 
 const preloadedState  = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;
@@ -35,7 +36,9 @@ class Root extends Component {
       <Provider store={store}>
         <div>
           <Router history={syncedHistory}>
-            <App />
+            <ScrollToTop>
+              <App />
+            </ScrollToTop>
           </Router>
         </div>
       </Provider>

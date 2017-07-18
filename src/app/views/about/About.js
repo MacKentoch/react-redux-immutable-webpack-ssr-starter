@@ -4,10 +4,14 @@ import React, {
   PureComponent
 }                     from 'react';
 import PropTypes      from 'prop-types';
+import {
+  Jumbotron
+}                     from '../../components';
 import AnimatedView   from '../../containers/animatedView/AnimatedView';
+import { Link }       from 'react-router-dom';
 
 class About extends PureComponent {
-  static propTypes= {
+  static propTypes = {
     currentView:  PropTypes.string.isRequired,
     enterAbout:   PropTypes.func.isRequired,
     leaveAbout:   PropTypes.func.isRequired
@@ -26,9 +30,20 @@ class About extends PureComponent {
   render() {
     return(
       <AnimatedView>
-        <h1>
-          About
-        </h1>
+        <Jumbotron>
+          <h1>
+            About
+          </h1>
+          <p>
+            <Link
+              className="btn btn-success btn-lg"
+              to={'/'}>
+              <i className="fa fa-info" />
+              &nbsp;
+              go to home
+            </Link>
+          </p>
+        </Jumbotron>
       </AnimatedView>
     );
   }

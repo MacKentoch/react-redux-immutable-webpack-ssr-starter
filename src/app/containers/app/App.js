@@ -3,6 +3,7 @@
 import React, {
   PureComponent
 }                             from 'react';
+import PropTypes              from 'prop-types';
 import {
   NavigationBar,
   BackToTop
@@ -13,12 +14,19 @@ import MainRoutes             from '../../routes/MainRoutes';
 import { withRouter }         from 'react-router';
 
 class App extends PureComponent {
+  static propTypes = {
+    // react-router 4:
+    location: PropTypes.object,
+    match:    PropTypes.object
+  };
+
   state = {
     navModel : fromJS(navigationModel)
   };
 
   render() {
     const { navModel } = this.state;
+    const { match: { url } } = this.props;
 
     return (
       <div id="appContainer">

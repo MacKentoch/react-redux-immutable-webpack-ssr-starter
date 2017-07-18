@@ -1,6 +1,6 @@
 {
   "name": "react-redux-immutable-webpack-ssr-starter",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side rendering, Hot Reload and redux-devtools STARTER",
   "main": "src/index.js",
   "engines": {
@@ -121,7 +121,7 @@
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
-    "react-hot-loader": "^3.0.0-beta.6",
+    "react-hot-loader": "3.0.0-beta-7",
     "react-modal": "^1.7.7",
     "react-motion": "^0.5.0",
     "react-notification": "^6.7.0",
