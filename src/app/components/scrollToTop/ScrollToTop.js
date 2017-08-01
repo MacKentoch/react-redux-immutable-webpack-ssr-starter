@@ -1,35 +1,35 @@
 // @flow weak
 
 import React, {
-  PureComponent
-}                 from 'react';
-import PropTypes  from 'prop-types';
-import {
-  withRouter
-}                 from 'react-router-dom';
+  Component
+}                     from 'react';
+import PropTypes      from 'prop-types';
+import { withRouter } from 'react-router'
 
-class ScrollToTop extends PureComponent {
+class ScrollToTop extends Component {
   static propTypes = {
-    children: PropTypes.node,
-    location: PropTypes.object
+    // react-router 4:
+    match:    PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history:  PropTypes.object.isRequired,
+
+    children: PropTypes.node
   };
 
   componentDidUpdate(prevProps) {
-    const { location: nextLocation } = this.props;
-    const { location: prevLocation } = prevProps;
+    if (window) {
+      const { location: prevLocation } = prevProps;
+      const { location: nextLocation } = this.props;
 
-    if (nextLocation !== prevLocation) {
-      window.scrollTo(0, 0);
+      if (prevLocation !== nextLocation) {
+        window.scrollTo(0, 0);
+      }
     }
   }
 
   render() {
     const { children } = this.props;
-    return (
-      <div>
-        { children }
-      </div>
-    );
+    return children;
   }
 }
 

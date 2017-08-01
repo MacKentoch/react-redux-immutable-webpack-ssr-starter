@@ -26,7 +26,7 @@ React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side ren
 - animate.css ([github :link:](https://github.com/daneden/animate.css))
 - classnames ([github :link:](https://github.com/JedWatson/classnames))
 - react-motion ([github :link:](https://github.com/chenglou/react-motion))
-- Webpack 2.x ([github :link:](https://github.com/webpack/webpack))
+- Webpack 3.x ([github :link:](https://github.com/webpack/webpack))
 - babel 6+ ([github :link:](https://github.com/babel/babel))
 - axios ([github :link:](https://github.com/mzabriskie/axios))
 

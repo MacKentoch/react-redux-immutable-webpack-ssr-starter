@@ -2,59 +2,67 @@
 
 import React, {
   PureComponent
-}                   from 'react';
-import PropTypes    from 'prop-types';
-import cx           from 'classnames';
-
-const ANIMATION_DELAY_MS = 500;
+}                     from 'react';
+import PropTypes      from 'prop-types';
+import cx             from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 class AnimatedView extends PureComponent {
   static propTypes = {
-    children: PropTypes.node,
-    delay:    PropTypes.number
+    children: PropTypes.node
   };
 
-  static defaultProps = {
-    delay: ANIMATION_DELAY_MS
-  };
-
-  enterAnimationTimer = null;
+  state: {
+    viewEnters: boolean
+  }
   
   state = {
-    animated: true,
     viewEnters: false
   };
 
   componentDidMount() {
-    const { delay } = this.props;
-
-    this.enterAnimationTimer = setTimeout(
-      () => this.setState({viewEnters: true}),
-      delay
-    );
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.enterAnimationTimer);
+    this.setViewEnters();
   }
 
   render() {
-    const { animated, viewEnters } = this.state;
-    const { children } = this.props;
-
+    const { viewEnters } = this.state;
+    
     return (
       <section
         className={
           cx({
-            'content':       true,
-            'invisible':     !viewEnters && animated,
-            'view-enter':    viewEnters && animated
+            'content':    true,
+            'invisible':  !viewEnters,
+            'view-enter': viewEnters
           })
-        }>
-      { children }
-    </section>
+        }
+      >
+        { 
+          this.cloneAllChildren()
+        }
+      </section>
+    );
+  }
+
+  setViewEnters = () => (this.setState({ viewEnters: true }));
+
+  /**
+   * To avoid blocking react-router 4 props passing (specially location)
+   * we pass down to any children AnimatedView own props (if router so we pass location down)
+   * 
+   * @memberof AnimatedView
+   * @returns {node}  AnimatedView children node with its own props
+   */
+  cloneAllChildren = (): Node => {
+    const { children } = this.props;
+
+    return React.Children.map(
+      children,
+      child => (
+        React.cloneElement(child, {...child.props, ...this.props})
+      )
     );
   }
 }
 
-export default AnimatedView;
+export default withRouter(AnimatedView);
