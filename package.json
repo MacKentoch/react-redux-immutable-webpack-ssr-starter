@@ -1,17 +1,19 @@
 {
   "name": "react-redux-immutable-webpack-ssr-starter",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side rendering, Hot Reload and redux-devtools STARTER",
   "main": "src/index.js",
   "engines": {
-    "node": "8.1.4"
+    "node": "8.1.4",
+    "npm": ">=5.3.0",
+    "yarn": ">=0.27.5"
   },
   "scripts": {
     "flow": "node_modules/.bin/flow",
     "test": "cross-env NODE_ENV=test nyc mocha test/.setup.js test/**/*.spec.js --recursive",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "dev": "cross-env NODE_ENV=dev webpack --config webpack.dev.config.js",
-    "prod": "cross-env NODE_ENV=production webpack -p --config webpack.production.config.js ",
+    "dev": "rimraf docs/public/assets/ && cross-env NODE_ENV=dev webpack --config webpack.dev.config.js",
+    "prod": "rimraf docs/public/assets/ && cross-env NODE_ENV=production webpack -p --config webpack.production.config.js ",
     "start": "cross-env NODE_ENV=dev node server.hot.reload",
     "serve-spa-dev": "npm run dev && nodemon ./src/server/SPA/index.js",
     "serve-spa-prod": "npm run prod && node ./src/server/SPA/index.js",
@@ -31,7 +33,7 @@
     "bootstrap",
     "starter",
     "webpack",
-    "webpack2",
+    "webpack3",
     "hot-reload",
     "redux-devtools",
     "devtools"
@@ -86,6 +88,7 @@
     "postcss-loader": "^2.0.5",
     "postcss-reporter": "^3.0.0",
     "react-addons-test-utils": "^15.6.0",
+    "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.2.3",
     "sass-loader": "^6.0.5",
@@ -114,6 +117,7 @@
     "immutable": "^3.8.1",
     "jquery": "^2.2.1",
     "js-base64": "^2.1.9",
+    "jwt-decode": "^2.2.0",
     "moment": "^2.17.0",
     "morgan": "^1.8.2",
     "pretty-error": "^2.1.1",
@@ -121,7 +125,7 @@
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.6.1",
-    "react-hot-loader": "^3.0.0-beta-7",
+    "react-hot-loader": "^3.0.0-beta.7",
     "react-modal": "^1.7.7",
     "react-motion": "^0.5.0",
     "react-notification": "^6.7.0",
@@ -133,6 +137,7 @@
     "redux": "^3.6.0",
     "redux-immutable": "^3.0.11",
     "redux-thunk": "^2.1.0",
+    "rimraf": "^2.6.1",
     "serialize-javascript": "^1.4.0"
   }
 }

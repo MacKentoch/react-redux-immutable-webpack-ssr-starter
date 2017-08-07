@@ -1,0 +1,10 @@
+{
+  "token": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "user": {
+    "id": 111,
+    "login": "john.doe@fake.mail",
+    "firstname": "John",
+    "lastname": "Doe",
+    "isAdmin": true
+  }
+}

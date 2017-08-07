@@ -3,12 +3,14 @@
 import { combineReducers }  from 'redux-immutable';
 import routerReducer        from './immutableRoute';
 import views                from './views';
+import userAuth             from './userAuth';
 
-export {
-  views
+export const reducers = {
+  views,
+  userAuth
 };
 
 export default combineReducers({
-  views,
+  ...reducers,
   routing: routerReducer
 });

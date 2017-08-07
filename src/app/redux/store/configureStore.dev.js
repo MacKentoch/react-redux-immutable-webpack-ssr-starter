@@ -2,7 +2,7 @@
 
 import {
   createStore,
-  compose,
+  // compose,
   applyMiddleware
 }                               from 'redux';
 
@@ -10,6 +10,7 @@ import { createLogger }         from 'redux-logger';
 import thunkMiddleware          from 'redux-thunk';
 import reducer                  from '../modules/reducers';
 import fetchMiddleware          from '../middleware/fetchMiddleware';
+import { composeWithDevTools }  from 'redux-devtools-extension';
 
 const loggerMiddleware = createLogger({
   level:     'info',
@@ -18,16 +19,7 @@ const loggerMiddleware = createLogger({
 });
 
 // createStore : enhancer
-// NOTE: if redux devtools extension is not installed, we just keep using Redux compose
-const composeEnhancers =  typeof window === 'object' &&  // for universal ("isomorphic") apps
-                          window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-                          ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-                            // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-                            // see: https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md
-                          })
-                          : compose;
-
-const enhancer = composeEnhancers(
+const enhancer = composeWithDevTools(
   applyMiddleware(
     thunkMiddleware,
     fetchMiddleware,

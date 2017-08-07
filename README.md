@@ -1,4 +1,4 @@
-React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side rendering, Hot Reload and redux-devtools STARTER
+React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side rendering, Hot Reload and redux-devtools-extension STARTER
 ==========
 
 > My React + Redux + Immutable + React-Router + Bootstrap + webpack project starter with server side rendering.
@@ -8,6 +8,7 @@ React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side ren
 - *`pure front-end` = server independant (use whatever you want as server: NodeJS, Rails, .NET...)*
 - server side redering
 
+![preview](./preview/preview.png)
 
 ## Detailed Content
 
@@ -33,7 +34,7 @@ React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side ren
 **Tool chain:**
 - babel 6+
 - eslint
-- webpack 2.x
+- webpack 3.x
 - hot reload
 - loaders
   - `js` / `jsx`

@@ -8,7 +8,7 @@ import {
   NavigationBar,
   BackToTop
 }                             from '../../components';
-import navigationModel        from '../../models/navigation.json';
+import navigationModel        from '../../config/navigation.json';
 import { fromJS }             from 'immutable';
 import MainRoutes             from '../../routes/MainRoutes';
 import { withRouter }         from 'react-router';
@@ -16,8 +16,10 @@ import { withRouter }         from 'react-router';
 class App extends PureComponent {
   static propTypes = {
     // react-router 4:
-    location: PropTypes.object,
-    match:    PropTypes.object
+    match:    PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history:  PropTypes.object.isRequired
+
   };
 
   state = {
