@@ -16,13 +16,6 @@
         "react-optimize"
       ],
       "comments": false
-    },
-    "server": {
-      "presets": [
-        "react-optimize",
-        "babili"
-      ],
-      "comments": false
     }
   }
 }

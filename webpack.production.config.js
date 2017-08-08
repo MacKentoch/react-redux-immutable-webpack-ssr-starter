@@ -56,7 +56,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use:  SPLIT_STYLE 
+        use:  SPLIT_STYLE
           ? ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
@@ -72,7 +72,7 @@ const config = {
       },
       {
         test: /\.scss$/,
-        use:  SPLIT_STYLE 
+        use:  SPLIT_STYLE
         ? ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -108,7 +108,7 @@ const config = {
     new ExtractTextPlugin('app.styles.css'),
     new webpack.optimize.CommonsChunkPlugin({
       name:     'vendor',
-      filename: 'app.vendor.bundle.js' 
+      filename: 'app.vendor.bundle.js'
     })
   ]
 };
@@ -117,8 +117,9 @@ const config = {
 */
 function getImplicitGlobals() {
   return new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery'
+    $:      'jquery',
+    jQuery: 'jquery',
+    jquery: 'jquery'
   });
 }
 

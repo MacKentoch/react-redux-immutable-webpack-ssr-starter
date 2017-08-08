@@ -1,5 +1,6 @@
 // @flow weak
 
+const webpack           = require('webpack');
 const path              = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nodeExternals     = require('webpack-node-externals');
@@ -69,7 +70,30 @@ const serverConfig = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    getImplicitGlobals(),
+    setNodeEnv()
+  ]
 };
+
+/*
+* here using hoisting so don't use `var NAME = function()...`
+*/
+function getImplicitGlobals() {
+  return new webpack.ProvidePlugin({
+    $:      'jquery',
+    jQuery: 'jquery',
+    jquery: 'jquery'
+  });
+}
+
+function setNodeEnv() {
+  return new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  });
+}
 
 module.exports = serverConfig;

@@ -19,10 +19,18 @@ const morgan        = require('morgan');
 import React              from 'react';
 import { renderToString } from 'react-dom/server';
 import moment             from 'moment';
-import { StaticRouter }   from 'react-router';
+import {
+  StaticRouter,
+  Switch,
+  Route
+}                         from 'react-router';
 import { Provider }       from 'react-redux';
 import configureStore     from '../../../app/redux/store/configureStore';
 import App                from '../../../app/containers/app/App';
+import ScrollToTop        from '../../../app/components/scrollToTop/ScrollToTop';
+import Login              from '../../../app/views/login';
+import PageNotFound       from '../../../app/views/pageNotFound/PageNotFound'; // not connected to redux (no index.js)
+import LogoutRoute        from '../../../app/components/logoutRoute/LogoutRoute';
 
 
 const DOCS_PATH = '../../../../docs';
@@ -47,7 +55,7 @@ app.use(morgan('combined'));
 
 app.use('/assets', express.static(path.resolve(__dirname, DOCS_PATH, 'public/assets/')));
 
-// IMPORTANT: '/*' and not '/' 
+// IMPORTANT: '/*' and not '/'
 // since you want browser refresh (= first render) to work from any route of the application
 app.get('/*', serverRender);
 
@@ -104,7 +112,7 @@ async function serverRender(req, res) {
     const response        = await fakeFetch();
     const { info }        = response;
     const currentTime     = moment().format();
-    const currentState    = store.getState(); 
+    const currentState    = store.getState();
 
     const currentViewsState = currentState.get('views');
     const updatedViewState  = currentViewsState
@@ -131,7 +139,14 @@ async function serverRender(req, res) {
         <StaticRouter
           location={location}
           context={context}>
-          <App />
+          <ScrollToTop>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <App />
+              <LogoutRoute path="/logout" />
+              <Route component={PageNotFound} />
+            </Switch>
+          </ScrollToTop>
         </StaticRouter>
       </Provider>
     );
@@ -163,15 +178,15 @@ async function serverRender(req, res) {
   //   .then(
   //     ({ info }) => {
   //       const currentTime     = moment().format();
-  //       const currentState    = store.getState(); 
-        
+  //       const currentState    = store.getState();
+
   //       const currentViewsState = currentState.get('views');
   //       const updatedViewState  = currentViewsState
   //                                 .set('somePropFromServer', info)
   //                                 .set('serverTime', currentTime);
 
   //       const preWarmedState  = currentState.set('views', updatedViewState);
-        
+
   //       // //JS would be then:
   //       // preWarmedState = {
   //       //   ...currentState,
@@ -184,7 +199,7 @@ async function serverRender(req, res) {
 
   //       // update store to be preloaded:
   //       store = configureStore(preWarmedState);
-        
+
   //       const InitialView = (
   //         <Provider store={store}>
   //           <StaticRouter
@@ -228,8 +243,8 @@ function renderFullPage(html, preloadedState = '') {
   // </section>
   // will throw warning related to: https://stackoverflow.com/questions/34060968/react-warning-render
   //
-  // so write this way to fix: 
-  // <section id="root">${html}</section> 
+  // so write this way to fix:
+  // <section id="root">${html}</section>
   const indexHtml = {
     template: `
     <!DOCTYPE html>
