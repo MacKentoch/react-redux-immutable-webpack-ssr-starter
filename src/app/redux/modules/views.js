@@ -103,7 +103,6 @@ export function leaveAbout(time = moment().format(dateFormat)) {
   };
 }
 
-
 export function enterLogin(time = moment().format()) {
   return {
     type:         ENTER_LOGIN_VIEW,

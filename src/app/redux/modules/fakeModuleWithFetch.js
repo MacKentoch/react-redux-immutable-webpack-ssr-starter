@@ -68,12 +68,13 @@ function fakeFetch() {
     const shouldFetchMock = appConfig.DEV_MODE;
     const fetchType       = shouldFetchMock ? 'FETCH_MOCK': 'FETCH';
     const mockResult      = fakeData;
-    
+
     const url     = `${getLocationOrigin()}/${appConfig.api.fakeEndPoint}`;
     const method  = 'get';
+    const header  = {};
     const options = {};
 
-    // fetch middleware 
+    // fetch middleware
     // -> you handle pure front (with mock data) or with back-end asyncs just by dispatching a single object
     //   -> just change config: appConfig.DEV_MODE
     return Promise.resolve(
@@ -93,6 +94,7 @@ function fakeFetch() {
           // props only used when type = FETCH:
           url,
           method,
+          header,
           options
         }
       })

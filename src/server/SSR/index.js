@@ -370,17 +370,9 @@ var auth = exports.auth = {
 
     return false;
   },
-  getTokenExpirationDate: function getTokenExpirationDate(encodedToken) {
-    var token = (0, _jwtDecode2.default)(encodedToken);
-    if (!token.exp) {
-      return null;
-    }
-
-    var expirationDate = (0, _moment2.default)(token.exp);
-    return expirationDate;
-  },
   clearToken: function clearToken() {
-    var tokenKey = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : TOKEN_KEY;
+    var storage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : APP_PERSIST_STORES_TYPES[0];
+    var tokenKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : TOKEN_KEY;
 
     if (localStorage && localStorage[tokenKey]) {
       localStorage.removeItem(tokenKey);
@@ -393,6 +385,26 @@ var auth = exports.auth = {
     }
 
     return false;
+  },
+  getTokenExpirationDate: function getTokenExpirationDate(encodedToken) {
+    if (!encodedToken) {
+      return new Date(0);
+    }
+
+    var token = (0, _jwtDecode2.default)(encodedToken);
+    if (!token.exp) {
+      return new Date(0);
+    }
+
+    var expirationDate = new Date(token.exp * 1000);
+    return expirationDate;
+  },
+  isExpiredToken: function isExpiredToken(encodedToken) {
+    var expirationDate = this.getTokenExpirationDate(encodedToken);
+    var rightNow = (0, _moment2.default)();
+    var isExpiredToken = (0, _moment2.default)(rightNow).isAfter((0, _moment2.default)(expirationDate));
+
+    return isExpiredToken;
   },
   getUserInfo: function getUserInfo() {
     var fromStorage = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : APP_PERSIST_STORES_TYPES[0];
@@ -1264,7 +1276,7 @@ var appConfig = exports.appConfig = {
 /* 27 */
 /***/ (function(module, exports) {
 
-module.exports = {"token":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","user":{"id":111,"login":"john.doe@fake.mail","firstname":"John","lastname":"Doe","isAdmin":true}}
+module.exports = {"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZW1vIiwiaWF0IjoxNTAyMzA3MzU0LCJleHAiOjE3MjMyMzIxNTQsImF1ZCI6ImRlbW8tZGVtbyIsInN1YiI6ImRlbW8iLCJHaXZlbk5hbWUiOiJKb2huIiwiU3VybmFtZSI6IkRvZSIsIkVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJSb2xlIjpbIlN1cGVyIGNvb2wgZGV2IiwibWFnaWMgbWFrZXIiXX0.6FjgLCypaqmRp4tDjg_idVKIzQw16e-z_rjA3R94IqQ","user":{"id":111,"login":"john.doe@fake.mail","firstname":"John","lastname":"Doe","isAdmin":true}}
 
 /***/ }),
 /* 28 */
@@ -2868,10 +2880,11 @@ var PrivateRoute = function (_Component) {
 
 
       var isUserAuthenticated = this.isAuthenticated();
+      var isTokenExpired = this.isExpired();
 
       return _react2.default.createElement(_reactRouterDom.Route, _extends({}, rest, {
         render: function render(props) {
-          return isUserAuthenticated ? _react2.default.createElement(InnerComponent, props) : _jsx(_reactRouterDom.Redirect, {
+          return !isTokenExpired && isUserAuthenticated ? _react2.default.createElement(InnerComponent, props) : _jsx(_reactRouterDom.Redirect, {
             to: { pathname: '/login', state: { from: location } }
           });
         }
@@ -2886,6 +2899,12 @@ var PrivateRoute = function (_Component) {
       var user = _auth2.default.getUserInfo() ? _auth2.default.getUserInfo() : null;
       var isAuthenticated = _auth2.default.getToken() && checkUserHasId(user) ? true : false;
       return isAuthenticated;
+    }
+  }, {
+    key: 'isExpired',
+    value: function isExpired() {
+      console.log('token expires: ', _auth2.default.getTokenExpirationDate(_auth2.default.getToken()));
+      return _auth2.default.isExpiredToken(_auth2.default.getToken());
     }
   }]);
 

@@ -18,7 +18,7 @@
     "serve-spa-dev": "npm run dev && nodemon ./src/server/SPA/index.js",
     "serve-spa-prod": "npm run prod && node ./src/server/SPA/index.js",
     "build-ssr": "cross-env NODE_ENV=production  webpack --color --config webpack.server.ssr.config.js",
-    "serve-ssr": "npm run build-ssr && cross-env NODE_ENV=production node ./src/server/SSR/index.js"
+    "serve-ssr": "npm run prod && npm run build-ssr && cross-env NODE_ENV=production node ./src/server/SSR/index.js"
   },
   "keywords": [
     "react",
