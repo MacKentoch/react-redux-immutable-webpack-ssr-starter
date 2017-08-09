@@ -49,11 +49,17 @@ class App extends PureComponent {
     );
   }
 
-  handleLeftNavItemClick = (event, viewName) => {
+  handleLeftNavItemClick = (
+    event: SyntheticInputEvent,
+    viewName: string
+  ) => {
     // something to do here?
   }
 
-  handleRightNavItemClick = (event, viewName) => {
+  handleRightNavItemClick = (
+    event: SyntheticInputEvent,
+    viewName
+  ) => {
     // something to do here?
   }
 }
