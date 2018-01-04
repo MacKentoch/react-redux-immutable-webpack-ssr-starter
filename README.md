@@ -1,9 +1,7 @@
 React + React-Router + Redux + ImmutableJS + Bootstrap with with Server side rendering, Hot Reload and redux-devtools-extension STARTER
 ==========
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/Mp96tCWH2KdajZuBzqB6jwj8/MacKentoch/react-redux-immutable-webpack-ssr-starter'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/Mp96tCWH2KdajZuBzqB6jwj8/MacKentoch/react-redux-immutable-webpack-ssr-starter.svg' />
-</a>
+
 
 > My React + Redux + Immutable + React-Router + Bootstrap + webpack project starter with server side rendering.
 
